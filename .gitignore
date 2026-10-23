@@ -1,2 +1,5 @@
 # Credenciales de la base de datos
 config/
+
+# Colección de Postman con la llave real de la API
+postman/AgendaContactos-con-llave.json

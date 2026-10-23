@@ -1,0 +1,1477 @@
+{
+  "info": {
+    "name": "Agenda de Contactos - API",
+    "description": "",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Contactos",
+      "item": [
+        {
+          "name": "Listar contactos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});",
+                  "pm.test(\"Trae una lista de contactos\", function () {",
+                  "    pm.expect(pm.response.json().datos).to.be.an(\"array\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar contactos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php?buscar=Lopez",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ],
+              "query": [
+                {
+                  "key": "buscar",
+                  "value": "Lopez"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});",
+                  "pm.test(\"Todos los resultados contienen Lopez\", function () {",
+                  "    pm.response.json().datos.forEach(function (c) {",
+                  "        var texto = (c.nombre + \" \" + c.apellido + \" \" + c.email + \" \" + c.empresa).toLowerCase();",
+                  "        pm.expect(texto).to.include(\"lopez\");",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear contacto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ]
+            },
+            "description": "Crea el contacto con el id 23. Si la respuesta trae otro id, cambie el 23 por ese número en las demás peticiones que lo usan.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Luis\",\n    \"apellido\": \"Gómez\",\n    \"email\": \"luis.gomez@umg.edu.gt\",\n    \"empresa\": \"UMG\",\n    \"fecha_nacimiento\": \"2001-08-15\",\n    \"notas\": \"Contacto de prueba de Postman\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});",
+                  "pm.test(\"Se creó con el id 23\", function () {",
+                  "    pm.expect(pm.response.json().datos.id).to.eql(23);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver contacto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php?id=23",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "23"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});",
+                  "pm.test(\"Es el contacto que se creó\", function () {",
+                  "    pm.expect(pm.response.json().datos.nombre).to.eql(\"Luis\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar contacto",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php?id=23",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "23"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Luis\",\n    \"apellido\": \"Gómez\",\n    \"email\": \"luis.gomez@umg.edu.gt\",\n    \"empresa\": \"Universidad Mariano Gálvez\",\n    \"fecha_nacimiento\": \"2001-08-15\",\n    \"notas\": \"Contacto de prueba de Postman\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver contacto editado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php?id=23",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "23"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"La empresa se actualizó\", function () {",
+                  "    pm.expect(pm.response.json().datos.empresa).to.eql(\"Universidad Mariano Gálvez\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Error: crear sin API key",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Luis\",\n    \"apellido\": \"Gómez\",\n    \"email\": \"luis.gomez@umg.edu.gt\",\n    \"empresa\": \"UMG\",\n    \"fecha_nacimiento\": \"2001-08-15\",\n    \"notas\": \"Contacto de prueba de Postman\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "pm.test(\"ok es false\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(false);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Error: crear con datos inválidos",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"\",\n    \"apellido\": \"Gómez\",\n    \"email\": \"esto-no-es-correo\",\n    \"empresa\": \"UMG\",\n    \"fecha_nacimiento\": \"2001-08-15\",\n    \"notas\": \"Prueba\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"ok es false\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(false);",
+                  "});",
+                  "pm.test(\"Indica el error en el campo nombre\", function () {",
+                  "    pm.expect(pm.response.json().errores).to.have.property(\"nombre\");",
+                  "});",
+                  "pm.test(\"Indica el error en el campo email\", function () {",
+                  "    pm.expect(pm.response.json().errores).to.have.property(\"email\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Error: editar sin id",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Luis\",\n    \"apellido\": \"Gómez\",\n    \"email\": \"luis.gomez@umg.edu.gt\",\n    \"empresa\": \"UMG\",\n    \"fecha_nacimiento\": \"2001-08-15\",\n    \"notas\": \"Contacto de prueba de Postman\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"ok es false\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(false);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Error: contacto que no existe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php?id=999999",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "999999"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test(\"ok es false\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(false);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Error: método no permitido",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 405\", function () {",
+                  "    pm.response.to.have.status(405);",
+                  "});",
+                  "pm.test(\"ok es false\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(false);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Teléfonos",
+      "item": [
+        {
+          "name": "Crear teléfono",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/telefonos.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "telefonos.php"
+              ]
+            },
+            "description": "Crea el teléfono con el id 22. Si la respuesta trae otro id, cambie el 22 por ese número en Editar, Ver y Eliminar teléfono.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"contacto_id\": 23,\n    \"numero\": \"5512-3456\",\n    \"tipo\": \"movil\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});",
+                  "pm.test(\"Se creó con el id 22\", function () {",
+                  "    pm.expect(pm.response.json().datos.id).to.eql(22);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar teléfonos del contacto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/telefonos.php?contacto_id=23",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "telefonos.php"
+              ],
+              "query": [
+                {
+                  "key": "contacto_id",
+                  "value": "23"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"El contacto tiene 1 teléfono\", function () {",
+                  "    pm.expect(pm.response.json().total).to.eql(1);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar teléfono",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/telefonos.php?id=22",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "telefonos.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "22"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"numero\": \"2440-1020\",\n    \"tipo\": \"casa\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver teléfono",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/telefonos.php?id=22",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "telefonos.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "22"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"El número y el tipo se actualizaron\", function () {",
+                  "    var t = pm.response.json().datos;",
+                  "    pm.expect(t.numero).to.eql(\"2440-1020\");",
+                  "    pm.expect(t.tipo).to.eql(\"casa\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Error: tipo de teléfono inválido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/telefonos.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "telefonos.php"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"contacto_id\": 23,\n    \"numero\": \"5512-3456\",\n    \"tipo\": \"fax\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"Indica el error en el campo tipo\", function () {",
+                  "    pm.expect(pm.response.json().errores).to.have.property(\"tipo\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Error: teléfono de un contacto que no existe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/telefonos.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "telefonos.php"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"contacto_id\": 999999,\n    \"numero\": \"5512-3456\",\n    \"tipo\": \"movil\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test(\"ok es false\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(false);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Eliminar teléfono",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/telefonos.php?id=22",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "telefonos.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "22"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. Direcciones",
+      "item": [
+        {
+          "name": "Crear dirección",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/direcciones.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "direcciones.php"
+              ]
+            },
+            "description": "Crea la dirección con el id 19. Si la respuesta trae otro id, cambie el 19 por ese número en Editar y Ver dirección.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"contacto_id\": 23,\n    \"direccion\": \"6a Avenida 10-25, Zona 1\",\n    \"ciudad\": \"Guatemala\",\n    \"departamento\": \"Guatemala\",\n    \"pais\": \"Guatemala\",\n    \"tipo\": \"casa\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});",
+                  "pm.test(\"Se creó con el id 19\", function () {",
+                  "    pm.expect(pm.response.json().datos.id).to.eql(19);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar direcciones del contacto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/direcciones.php?contacto_id=23",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "direcciones.php"
+              ],
+              "query": [
+                {
+                  "key": "contacto_id",
+                  "value": "23"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"El contacto tiene 1 dirección\", function () {",
+                  "    pm.expect(pm.response.json().total).to.eql(1);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar dirección",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/direcciones.php?id=19",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "direcciones.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "19"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"direccion\": \"4a Calle 3-15, Zona 2\",\n    \"ciudad\": \"Mixco\",\n    \"departamento\": \"Guatemala\",\n    \"pais\": \"Guatemala\",\n    \"tipo\": \"trabajo\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver dirección",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/direcciones.php?id=19",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "direcciones.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "19"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"La ciudad se actualizó\", function () {",
+                  "    pm.expect(pm.response.json().datos.ciudad).to.eql(\"Mixco\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Error: dirección sin datos",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/direcciones.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "direcciones.php"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"contacto_id\": 23,\n    \"direccion\": \"\",\n    \"ciudad\": \"\",\n    \"departamento\": \"\",\n    \"pais\": \"\",\n    \"tipo\": \"casa\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"Indica el error en el campo direccion\", function () {",
+                  "    pm.expect(pm.response.json().errores).to.have.property(\"direccion\");",
+                  "});",
+                  "pm.test(\"Indica el error en el campo ciudad\", function () {",
+                  "    pm.expect(pm.response.json().errores).to.have.property(\"ciudad\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4. Tipo de cambio Banguat",
+      "item": [
+        {
+          "name": "Tipo de cambio de hoy",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/tipo-cambio.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "tipo-cambio.php"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});",
+                  "pm.test(\"Trae la fecha y el tipo de cambio\", function () {",
+                  "    var r = pm.response.json();",
+                  "    pm.expect(r.fecha).to.be.a(\"string\");",
+                  "    pm.expect(r.referencia).to.be.above(0);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Convertir dólares a quetzales",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/tipo-cambio.php?dolares=250",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "tipo-cambio.php"
+              ],
+              "query": [
+                {
+                  "key": "dolares",
+                  "value": "250"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Calcula los quetzales\", function () {",
+                  "    var r = pm.response.json();",
+                  "    pm.expect(r.quetzales).to.be.closeTo(250 * r.referencia, 0.01);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Error: dólares negativos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/tipo-cambio.php?dolares=-5",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "tipo-cambio.php"
+              ],
+              "query": [
+                {
+                  "key": "dolares",
+                  "value": "-5"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"ok es false\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(false);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Error: método no permitido",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/tipo-cambio.php",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "tipo-cambio.php"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 405\", function () {",
+                  "    pm.response.to.have.status(405);",
+                  "});",
+                  "pm.test(\"ok es false\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(false);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5. Limpieza",
+      "item": [
+        {
+          "name": "Eliminar contacto de prueba",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-API-KEY",
+                "value": "PEGAR-AQUI-LA-LLAVE"
+              }
+            ],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php?id=23",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "23"
+                }
+              ]
+            },
+            "description": "Borra el contacto creado en \"1. Contactos\". Por el ON DELETE CASCADE también se borra su dirección."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"ok es true\", function () {",
+                  "    pm.expect(pm.response.json().ok).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver contacto eliminado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/contactos.php?id=23",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "contactos.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "23"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sus direcciones también se borraron",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://proyectofinaldesarrolloweb.onrender.com/api/direcciones.php?contacto_id=23",
+              "protocol": "https",
+              "host": [
+                "proyectofinaldesarrolloweb",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "direcciones.php"
+              ],
+              "query": [
+                {
+                  "key": "contacto_id",
+                  "value": "23"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde con el código 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"No quedan direcciones del contacto\", function () {",
+                  "    pm.expect(pm.response.json().total).to.eql(0);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
