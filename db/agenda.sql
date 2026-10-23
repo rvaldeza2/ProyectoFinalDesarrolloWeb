@@ -53,10 +53,10 @@ CREATE TABLE direcciones (
 
 INSERT INTO usuarios (nombre, email, password, api_key, creado_en) VALUES
 ('Administrador', 'admin@agenda.com',
- '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+ '$2y$10$IDTkCMy8wfBm0bTX5KRsCezP8NDmucn6McEUA10M9r/m9rvoRwdOi',
  'a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90', NOW()),
 ('Jose Osorio', 'jose@agenda.com',
- '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+ '$2y$10$WIXmzM2H.DxiL8tiqO4PSuz47xgBWrvdJITO7wFsBIqeAO/vf3.o6',
  'f0e1d2c3b4a5968778695a4b3c2d1e0ff0e1d2c3b4a5968778695a4b3c2d1e0f', NOW());
 
 INSERT INTO contactos (usuario_id, nombre, apellido, email, empresa, fecha_nacimiento, notas, creado_en, actualizado_en) VALUES
